@@ -2,60 +2,9 @@
 # AHB2APB_BRIDGE  
 
 AHB2APB_BRIDGE is a complete RTL + UVM verification environment for the **AHB-to-APB Bridge Protocol**.  
-
 It connects the high-performance **AMBA AHB bus** to the low-power **APB bus**,
-
 enabling communication between high-speed masters and low-speed peripherals.  
 
-```
-# AHB2APB_BRIDGE
-```
-# AHB2APB_BRIDGE
-├── circuit_diagram.png
-├── TB_ARCH.png
-├── rtl
-│   ├── ahb_apb_top.v
-│   ├── ahb_slave.v
-│   ├── apb_controller.v
-│   ├── apb_interface.v
-│   ├── definitions.v
-│   ├── master_interface.sv
-│   └── slave_interface.sv
-├── master_agent_top
-│   ├── master_agent_config.sv
-│   ├── master_agent.sv
-│   ├── master_agent_top.sv
-│   ├── master_driver.sv
-│   ├── master_monitor.sv
-│   ├── master_sequencer.sv
-│   ├── master_sequence.sv
-│   └── master_xtn.sv
-├── slave_agent_top
-│   ├── slave_agent_config.sv
-│   ├── slave_agent.sv
-│   ├── slave_agent_top.sv
-│   ├── slave_driver.sv
-│   ├── slave_monitor.sv
-│   ├── slave_sequencer.sv
-│   ├── slave_sequence.sv
-│   └── slave_xtn.sv
-├── tb
-│   ├── bridge_env_config.sv
-│   ├── bridge_scoreboard.sv
-│   ├── bridge_tb.sv
-│   ├── bridge_virtual_seqs.sv
-│   ├── bridge_virtual_sequencer.sv
-│   └── top.sv
-├── test
-│   ├── bridge_test_pkg.sv
-│   └── bridge_test.sv
-├── sim
-│   ├── Makefile
-│   └── waves.do
-└── docs
-    ├── README.md
-    ├── protocol_notes.md
-    └── design_spec.pdf
 ```
 
 ---
