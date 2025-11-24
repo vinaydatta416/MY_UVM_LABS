@@ -39,13 +39,13 @@ The RTL is structured into **6 modules**:
 
 📌 **Diagram:**
 
-![Router Top Block](./docs/1.png)
+![Router Top Block](1.png)
 
 ---
-![Router Top Block](./docs/2.png)
+![Router Top Block](2.png)
 
 ---
-![Router Top Block](./docs/3.png)
+![Router Top Block](3.png)
 
 ------
 
@@ -89,7 +89,7 @@ The Router 1x3 is a digital design that:
 ![Router RTL Architecture](arch.jpeg)
 
 ### UVM Testbench Architecture
-![UVM Architecture](./docs/uvmarch.jpeg)
+![UVM Architecture](uvmarch.jpeg)
 
 ---
 
@@ -115,50 +115,6 @@ The Router 1x3 is a digital design that:
 - Simultaneous read/write capability
 
 ---
-
-## Directory Structure
-
-```
-├── dest/                   # Destination Components
-│   ├── dest_agent.sv
-│   ├── dest_agent_top.sv
-│   ├── dest_config.sv
-│   ├── dest_drv.sv
-│   ├── dest_mon.sv
-│   ├── dest_seqs.sv
-│   ├── dest_sequencer.sv
-│   └── dest_trans.sv
-├── env/                    # Environment Components
-│   ├── env_config.sv
-│   ├── env.sv
-│   ├── scoreboard.sv
-│   ├── virtual_seqs.sv
-│   └── virtual_sequencer.sv
-├── rtl/                    # RTL Design Files
-│   ├── dest_if.sv
-│   ├── fifo.v
-│   ├── fsm.v
-│   ├── register.v
-│   ├── router_top.v
-│   ├── source_if.sv
-│   └── synchronizer.v
-├── source/                 # Source Components
-│   ├── source_agent.sv
-│   ├── source_agent_top.sv
-│   ├── source_config.sv
-│   ├── source_drv.sv
-│   ├── source_mon.sv
-│   ├── source_seqs.sv
-│   ├── source_sequencer.sv
-│   └── source_trans.sv
-├── test/                   # Test Cases
-│   └── base_test.sv
-├── top/                    # Top level Files 
-│   ├── router_pkg.sv
-│   └── top.sv
-└── report/                 # Report 
-    └── index.html
-```
 
 ## RTL Components
 
