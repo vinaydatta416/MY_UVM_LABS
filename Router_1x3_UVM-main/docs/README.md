@@ -1,10 +1,5 @@
 ```markdown
 # Router 1x3 Project
-
-This repository contains the RTL design and UVM verification 
-environment for a 1x3 Router project.
-The router is designed to route packets from a single
-input port to three output ports based on the header information.
 ```
 ---
 ## 🧱 Block-Level RTL Design
@@ -56,10 +51,6 @@ The RTL is structured into **6 modules**:
 | Header Byte | Payload (n Bytes) | Parity Byte   |
 +-------------+-------------------+---------------+
 |                   PYALOAD 0                      |
-+-------------+-------------------+---------------+
-|                       |                         |
-+-------------+-------------------+---------------+
-|                       |                         |
 +-------------+-------------------+---------------+
 |                       |                         |
 +-------------+-------------------+---------------+
@@ -158,6 +149,58 @@ Coverage reports are available in the `report/` directory:
 
 ---
 
+
+
+
+# 📌 Router 1x3 Interface – Signal Description
+
+| **Signal**                                                         | **Direction** | **Width**   | **Active / Type**           | **Description**                                                                                      |
+| ------------------------------------------------------------------ | ------------- | ----------- | --------------------------- | ---------------------------------------------------------------------------------------------------- |
+| **clock**                                                          | Input         | 1 bit       | Active on **posedge**       | System clock that drives all synchronous logic inside the router.                                    |
+| **resetn**                                                         | Input         | 1 bit       | Active **low**, synchronous | Resets FSM, FIFOs, counters, and internal registers to a known state.                                |
+| **pkt\_valid**                                                     | Input         | 1 bit       | Active **high**             | Indicates arrival of a new packet from source network at `data_in`.                                  |
+| **data\_in**                                                       | Input         | 8 bits      | –                           | Packet data bus from source to router. First byte is header, last byte is parity.                    |
+| **read\_enb\[2:0]** <br>(read\_enb\_0, read\_enb\_1, read\_enb\_2) | Input         | 1 bit each  | Active **high**             | Read enable for each output port. When high, router drives `data_out_x` to the corresponding client. |
+| **data\_out\[2:0]** <br>(data\_out\_0, data\_out\_1, data\_out\_2) | Output        | 8 bits each | –                           | Packet data bus from router to destination clients (3 outputs).                                      |
+| **vld\_out\[2:0]** <br>(vld\_out\_0, vld\_out\_1, vld\_out\_2)     | Output        | 1 bit each  | Active **high**             | Indicates valid data is available on corresponding `data_out_x`. Works with `read_enb_x`.            |
+| **busy**                                                           | Output        | 1 bit       | Active **high**             | Indicates router is currently processing a packet and cannot accept new data. Prevents packet loss.  |
+| **error**                                                          | Output        | 1 bit       | Active **high**             | Indicates **parity mismatch** between received packet parity and internally computed parity.         |
+
+---
+
+# 📌 Quick Bullets (Grouped Explanation)
+
+* **Input side (source → router):**
+
+  * `clock` → main timing reference.
+  * `resetn` → reset all logic (active low).
+  * `pkt_valid` → signals arrival of new packet.
+  * `data_in[7:0]` → 8-bit packet data bus.
+
+* **Output control (router → client):**
+
+  * `read_enb[2:0]` → enables reading for each destination.
+  * `data_out[2:0][7:0]` → 8-bit output bus for clients 0,1,2.
+  * `vld_out[2:0]` → tells client that valid byte is available.
+
+* **Status/Error signals:**
+
+  * `busy` → router is occupied, no new packets accepted.
+  * `error` → parity error detected in packet.
+
+---
+
+# 📌 Router 1x3 – Key Features
+
+| **Feature**                          | **Description**                                                                                                                                                                                                                                        |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Packet Routing**                   | - Incoming packet arrives on the single **input port** (`data_in`). <br>- The **header field** contains the destination address. <br>- Based on this address, router directs the packet to one of the **three output ports** (`data_out_0/1/2`).       |
+| **Parity Checking**                  | - Ensures **data integrity** between source (server) and destination (client). <br>- Router computes **internal parity** while receiving the packet. <br>- Compares with **parity byte** sent in packet. <br>- If mismatch → `error` signal goes high. |
+| **Reset**                            | - Controlled by **active-low synchronous reset (`resetn`)**. <br>- When asserted: <br>  • Router FSM returns to IDLE. <br>  • All **output FIFOs emptied**. <br>  • All `vld_out_x` signals go low (no valid data available).                          |
+| **Sending Packet (Input Protocol)**  | - Source sends packet byte-by-byte over `data_in`. <br>- **`pkt_valid`** high indicates packet transfer. <br>- **Busy** signal prevents new packet arrival if router is occupied.                                                                      |
+| **Reading Packet (Output Protocol)** | - Destination reads data from router using **`read_enb_x`**. <br>- Corresponding **`vld_out_x`** goes high when data is ready. <br>- Packet is read sequentially until last byte (parity).                                                             |
+
+---
 
 
 
