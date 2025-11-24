@@ -86,7 +86,7 @@ The Router 1x3 is a digital design that:
 ## Architecture
 
 ### RTL Block Diagram
-![Router RTL Architecture](./docs/arch.jpeg)
+![Router RTL Architecture](arch.jpeg)
 
 ### UVM Testbench Architecture
 ![UVM Architecture](./docs/uvmarch.jpeg)
